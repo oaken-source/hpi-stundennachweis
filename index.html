@@ -68,7 +68,7 @@
                           <div class="small-3 columns">
                             <label for="form-start" class="right">Vertragsbeginn</label>
                           </div>
-                          <div class="small-9 columns">
+                          <div class="small-7 columns">
                             <select name="form-start" id="form-start">
                               <option value="0">Januar</option>
                               <option value="1">Februar</option>
@@ -83,6 +83,12 @@
                               <option value="10">November</option>
                               <option value="11">Dezember</option>
                             </select>
+                          </div>
+                          <div class="small-2 columns">
+                            <input type="text" name="form-startyear" id="form-startyear" placeholder="2019" value="" />
+                            <script>
+                              document.getElementById('form-startyear').placeholder = new Date().getFullYear();
+                            </script>
                           </div>
                         </div>
                       </div>

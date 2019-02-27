@@ -31,11 +31,18 @@ std.loadHolidays = function(year) {
 }
 
 std.isHoliday = function(day, month, year) {
+  // akademische weihnachtsferien : 21.12. - 04.01. (conservative guess)
+  if (month == 11 && day >= 20)
+    return 1;
+  if (month == 0 && day <= 3)
+    return 1;
+
   if (!(year in std.holidays))
     std.loadHolidays(year);
 
   month = ((month < 9) ? '0' : '') + (month + 1);
   day   = ((  day < 9) ? '0' : '') + (  day + 1);
+
   return (year + '-' + month + '-' + day) in std.holidays[year];
 }
 
@@ -105,6 +112,12 @@ std.submitForm = function(e) {
   var monthStart = parseInt($('#form-start').val());
   console.log('monthStart: ' + monthStart);
 
+  var yearStart = $('input[name=form-startyear]').val().trim();
+  if (yearStart == '')
+    yearStart = $('input[name=form-startyear]').attr('placeholder');
+  yearStart = parseInt(yearStart);
+  console.log('yearStart: ' + yearStart);
+
   var workingWeekdays = [];
   $('input[name=form-working-days]:checked').each(function(i, item) {
     workingWeekdays.push(parseInt($(item).val()));
@@ -143,8 +156,6 @@ std.submitForm = function(e) {
 
   var $print = $('#print');
   $print.empty();
-
-  var yearStart = new Date().getFullYear();
 
   for (var m = 0; m < numMonths; ++m) {
     var month = (monthStart + m) % 12;
